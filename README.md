@@ -1,70 +1,53 @@
-Project Title
+## NACKered
 
-One Paragraph of project description goes here
+NACKered is a small bash script based off the work of Alva Lease 'Skip' Duckwall IV to bypass 802.1x Network Access Control. Tested and working on a raspberrypi running a cut down version of Kali. 
 
-Getting Started
+## Hardware Prerequisites
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+* You'll need a system with two ethernet ports, you'll need physical access to place your device inline.
+* If you're running this on a box you've dopped into a network and you need to setup a remote connection to it, for example 3G/4G, you'll need to do some minor edits, adding your new interface into the bridge etc.
 
-Prerequisites
+## Prerequisites
 
-What things you need to install the software and how to install them
+Very limited software prerequists are needed:
+* Debian Based OS (with usual tools bash/ipconfig/route etc)
+* brctl (bridge control - used to create the bridges)
+* macchanger (alters mac addresses)
+* mii-tool (forces a reauth by cycling connections)
+* tcpdump (packet capture stuff)
+* arptables/ebtables/iptables (does rewriting and NAT'ing)
 
-Give examples
-Installing
+## Execution Flow
+The script currently has debug breakpoints in it (it does "Press Enter" to do next step"), I'll release a fully automatic one at some point.
 
-A step by step series of examples that tell you have to get a development env running
+1. We setup the environment, killing services we don't like, disabling IPv6, removing dns-cache etc
+2. We set some variables, obtaining MAC addresses from interfaces etc
+  * The BridgeIP is set to 169.254.66.66, the "secret" SSH callback port is set to 2222, the NAT ranges is set to 61000-62000
+3. We kill all connections from the laptop and setup the bridge
+4. We do the little kernel trick to forward EAPoL packets
+5. We bring up the legit client and the switch side connection on the bridge - should auth now and be happy.
+6. We start packet capturing the traffic running through our device (but we are still dark!)
+7. We use arptables/iptables to drop any traffic from our machine
+8. A rule is made in ebtables to rewrite all MAC addresses leaving the device to look like the Victim's.
+9. A default route is made such that all traffic is sent to our fake gateway, which has the mac of the real gateway (which we only know the mac address of). Because layer 2 is fine it will get to where it needs to go to.
+10. Sneeky ssh callback is created victim-ip:2222 will actually SSH into ourmachine:22
+11. Rule is made in iptables to rewrite all TCP/UDP/ICMP traffic with Victim-IP
+12. SSH server is started on attack machine in case it wasn't
+13. Everything should be working so we take off the traffic drops made in line 7, and in theory we can get going, doing what we need to do.
 
-Say what the step will be
+## Built With
+Trial & Error + A Computer.
 
-Give the example
-And repeat
+## Contributing
+Feel free to submit pull requests.
 
-until finished
-End with an example of getting some data out of the system or using it for a little demo
+## Authors
+Matt E - KPMG Cyber Defence Services
 
-Running the tests
+## License
+This project is licensed under the BSD-3-Clause License, see license.md for more info.
 
-Explain how to run the automated tests for this system
-
-Break down into end to end tests
-
-Explain what these tests test and why
-
-Give an example
-And coding style tests
-
-Explain what these tests test and why
-
-Give an example
-Deployment
-
-Add additional notes about how to deploy this on a live system
-
-Built With
-
-Dropwizard - The web framework used
-Maven - Dependency Management
-ROME - Used to generate RSS Feeds
-Contributing
-
-Please read CONTRIBUTING.md for details on our code of conduct, and the process for submitting pull requests to us.
-
-Versioning
-
-We use SemVer for versioning. For the versions available, see the tags on this repository.
-
-Authors
-
-Billie Thompson - Initial work - PurpleBooth
-See also the list of contributors who participated in this project.
-
-License
-
-This project is licensed under the MIT License - see the LICENSE.md file for details
-
-Acknowledgments
-
-Hat tip to anyone who's code was used
-Inspiration
-etc
+## Acknowledgments
+Alva Lease 'Skip' Duckwall IV
+KPMG Cyber Defennce Services 2013-Present
+Justin M
