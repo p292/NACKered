@@ -7,7 +7,7 @@ NACKered is a small bash script based off the work of Alva Lease 'Skip' Duckwall
 * You'll need a system with two ethernet ports, you'll need physical access to place your device inline.
 * If you're running this on a box you've dopped into a network and you need to setup a remote connection to it, for example 3G/4G, you'll need to do some minor edits, adding your new interface into the bridge etc.
 
-## Prerequisites
+## Software Prerequisites
 
 Very limited software prerequists are needed:
 * Debian Based OS (with usual tools bash/ipconfig/route etc)
@@ -48,6 +48,6 @@ Matt E - KPMG Cyber Defence Services
 This project is licensed under the BSD-3-Clause License, see license.md for more info.
 
 ## Acknowledgments
-Alva Lease 'Skip' Duckwall IV
-KPMG Cyber Defennce Services 2013-Present
-Justin M
+* Alva Lease 'Skip' Duckwall IV
+* KPMG Cyber Defence Services 2013-Present
+* Justin M
