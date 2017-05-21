@@ -22,7 +22,7 @@ The script currently has debug breakpoints in it (it does "Press Enter" to do ne
 
 1. We setup the environment, killing services we don't like, disabling IPv6, removing dns-cache etc
 2. We set some variables, obtaining MAC addresses from interfaces etc
-  * The BridgeIP is set to 169.254.66.66, the "secret" SSH callback port is set to 2222, the NAT ranges is set to 61000-62000
+    * The BridgeIP is set to 169.254.66.66, the "secret" SSH callback port is set to 2222, the NAT ranges is set to 61000-62000
 3. We kill all connections from the laptop and setup the bridge
 4. We do the little kernel trick to forward EAPoL packets
 5. We bring up the legit client and the switch side connection on the bridge - should auth now and be happy.
