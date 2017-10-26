@@ -66,6 +66,8 @@ brctl addif $BRINT $COMPINT #add computer side to bridge
 brctl addif $BRINT $SWINT #add switch side to bridge
 
 echo 8 > /sys/class/net/br0/bridge/group_fwd_mask #forward EAP packets
+echo 1 > /proc/sys/net/bridge/bridge-nf-call-iptables
+
 ifconfig $COMPINT 0.0.0.0 up promisc #bring up comp interface
 ifconfig $SWINT 0.0.0.0 up promisc #bring up switch interface
 
