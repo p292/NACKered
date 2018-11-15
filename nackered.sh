@@ -1,6 +1,10 @@
 #!/bin/bash
+
+## --
+## Original Script:
 ## Matt E - NACkered v2.92.2 - KPMG LLP 2014
 ## KPMG UK Cyber Defence Services
+## --
 
 if [ "$1" == "-h" ] ; then
 	echo -e "Info: `basename $0`\n\n[-h or --help]\t\t+Display this help information\n[-v or --version]\t+Display version information\n[-a or --about]\t\t+Display usage information"
@@ -45,7 +49,7 @@ echo
 BRINT=br0 #bridge interface
 ININT=eth0 #interface of laptop to kill (we prefer to use two usb2eth's)
 SWINT=eth1 #interface of usb2eth plugged into switch
-SWMAC=`ifconfig $SWINT | grep -i hwaddr | awk '{ print $5 }'` #get SWINT MAC address automatically.
+SWMAC=`ifconfig $SWINT | grep -i ether | awk '{ print $2 }'` #get SWINT MAC address automatically.
 COMPINT=eth2 #interface of usb2eth plugged into victim machine
 BRIP=169.254.66.66 #IP for the bridge
 DPORT=2222 #SSH CALL BACK PORT USE victimip:2222 to connect to attackerbox:22
